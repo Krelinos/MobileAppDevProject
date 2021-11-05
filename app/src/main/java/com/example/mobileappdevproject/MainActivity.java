@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         // (created activity_launch and LaunchScreen class as placeholders to test onClick functionality but these can be renamed if needed)
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_main_layout);
         relativeLayout.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Intent intentLaunch = new Intent(MainActivity.this, LaunchScreen.class);
