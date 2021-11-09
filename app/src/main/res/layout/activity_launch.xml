@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:text="Placeholder activity for some action"
         android:layout_centerInParent="true">
-
     </TextView>
+
 </RelativeLayout>

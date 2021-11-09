@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Emmer/AndroidStudioProjects/MobileAppDevProject/app/src/main/res/drawable/border_narrative.xml" value="0.23125" />
+        <entry key="..\:/Users/Emmer/AndroidStudioProjects/MobileAppDevProject/app/src/main/res/layout/activity_launch.xml" value="0.33" />
         <entry key="..\:/Users/Emmer/AndroidStudioProjects/MobileAppDevProject/app/src/main/res/layout/activity_main.xml" value="0.25181159420289856" />
+        <entry key="..\:/Users/Emmer/AndroidStudioProjects/MobileAppDevProject/app/src/main/res/layout/activity_narrative.xml" value="0.25" />
+        <entry key="..\:/Users/Emmer/AndroidStudioProjects/MobileAppDevProject/app/src/main/res/layout/activity_narrative_holder.xml" value="0.2859375" />
         <entry key="..\:/Users/gazen/AndroidStudioProjects/MobileAppDevProject/app/src/main/res/layout/activity_launch.xml" value="0.8571428571428571" />
         <entry key="..\:/Users/gazen/AndroidStudioProjects/MobileAppDevProject/app/src/main/res/layout/activity_main.xml" value="0.22509057971014493" />
       </map>

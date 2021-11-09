@@ -21,6 +21,7 @@
 
         <activity
             android:name=".LaunchScreen"></activity>
+        <activity android:name=".NarrativeActivity" />
 
     </application>
 

@@ -2,6 +2,7 @@ package com.example.mobileappdevproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intentLaunch = new Intent(MainActivity.this, LaunchScreen.class);
+                Intent intentLaunch = new Intent(MainActivity.this, NarrativeActivity.class);
                 startActivity(intentLaunch);
             }
         });
