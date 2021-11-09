@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intentLaunch = new Intent(MainActivity.this, NarrativeActivity.class);
+                Intent intentLaunch = new Intent(MainActivity.this, LaunchScreen.class);
                 startActivity(intentLaunch);
             }
         });
