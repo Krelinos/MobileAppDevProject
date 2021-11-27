@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MobileAppDevProject</string>
+    <string name="lorem_ipsum">Vivamus id dapibus tellus, ut malesuada neque. Suspendisse aliquet elementum ante, ut ullamcorper leo consectetur vitae. Suspendisse iaculis, dolor sed laoreet dignissim, libero velit dignissim diam, nec aliquet dolor justo sit amet diam. Nullam facilisis convallis urna eget ultricies. Sed eu mi egestas, commodo massa id, pulvinar augue. Curabitur consectetur, risus et pharetra finibus, enim ante vestibulum enim, vitae maximus eros magna eget libero. Mauris eu pellentesque augue. Aenean sit amet turpis neque. Aliquam dapibus mauris nunc, sit amet ullamcorper mi porttitor non. Pellentesque sit amet luctus purus. Etiam tempor eget orci bibendum accumsan. Pellentesque nunc turpis, congue at accumsan sit amet, suscipit a orci. Aenean posuere interdum quam, nec euismod erat. </string>
+    <string name="narrative_content_description">Narrative background image</string>
+    <string name="narrative_sample">I can see my house from here. It\'s just about 200 meters away. The lights are on, that\'s a good sign.\n\nBut if they are okay, then why haven\'t they come to check on me? I am starting to get worried.</string>
+    <string name="choice_sample">Place your hand on the barrier and follow it.</string>
 </resources>

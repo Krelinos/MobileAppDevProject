@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:background="#00000000"
+    android:id="@+id/choice_button">
+
+    <TextView
+        android:id="@+id/textview_choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="64dp"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="8dp"
+        android:ems="100"
+        android:gravity="center"
+        android:fontFamily="sans-serif"
+        android:text="@string/choice_sample"
+        android:textSize="18sp"
+        android:textColor="@android:color/primary_text_dark"
+        android:lineSpacingExtra="3dp"
+        android:background="@drawable/choice_button_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClickChoiceButton"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
