@@ -9,7 +9,7 @@
     android:id="@+id/choice_button">
 
     <TextView
-        android:id="@+id/textview_choice"
+        android:id="@+id/choice_button_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="64dp"
@@ -20,12 +20,13 @@
         android:fontFamily="sans-serif"
         android:text="@string/choice_sample"
         android:textSize="18sp"
-        android:textColor="@android:color/primary_text_dark"
+        android:textColor="@color/choice_button_text_colors"
         android:lineSpacingExtra="3dp"
         android:background="@drawable/choice_button_bg"
         android:clickable="true"
         android:focusable="true"
         android:onClick="onClickChoiceButton"
+        android:contextClickable="true"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

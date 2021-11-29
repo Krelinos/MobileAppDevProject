@@ -3,11 +3,11 @@
     android:shape="rectangle" >
 
     <padding
-        android:top="500dp" />
+        android:top="0dp" />
 
     <!-- View background color -->
     <solid
-        android:color="#00000000" />
+        android:color="@color/choice_button_background" />
 
     <!-- View border color and width -->
     <stroke

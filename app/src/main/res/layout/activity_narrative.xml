@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_game_activity"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_narrative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
@@ -13,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/dark_forest"
-        android:contentDescription="@string/narrative_content_description"/>
+        android:contentDescription="@string/narrative_content_description" />
 
     <ScrollView
         android:id="@+id/narrative_scrollview"
@@ -33,11 +30,15 @@
                 layout="@layout/choice_dialog" />
 
             <include
+                android:id="@+id/line"
+                layout="@layout/aesthetic_line" />
+
+            <include
                 android:id="@+id/wasd"
                 layout="@layout/choice_button" />
 
             <include
-                android:id="@+id/wasdf"
+                android:id="@+id/what"
                 layout="@layout/choice_button" />
 
         </LinearLayout>

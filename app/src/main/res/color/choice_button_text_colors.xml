@@ -1,0 +1,24 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true"
+        android:color="#FFFFFF"/> <!-- pressed -->
+    <item android:color="#EEEEEE"/>  <!--default -->
+
+</selector>
+
+<!---<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true"
+        android:color="@color/choice_button_focused" />
+    <item android:state_pressed="true"
+        android:state_enabled="false"
+        android:color="@color/choice_button_disabled_pressed" />
+    <item android:state_enabled="false"
+        android:color="@color/choice_button_disabled_not_pressed" />
+    <item android:color="@color/choice_button_default" />
+</selector>
+
+<color name="choice_button_default">#FFFFFFFF</color>
+<color name="choice_button_focused">#AAAAAA</color>
+<color name="choice_button_disabled_pressed">#FFDDDDDD</color>
+<color name="choice_button_disabled_not_pressed">#DDAAAAAA</color>
+-->
