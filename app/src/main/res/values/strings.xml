@@ -4,4 +4,5 @@
     <string name="narrative_content_description">Narrative background image</string>
     <string name="narrative_sample">I can see my house from here. It\'s just about 200 meters away. The lights are on, that\'s a good sign.\n\nBut if they are okay, then why haven\'t they come to check on me? I am starting to get worried.</string>
     <string name="choice_sample">Place your hand on the barrier and follow it.</string>
+    <item type="integer" name="choiceId"/>
 </resources>

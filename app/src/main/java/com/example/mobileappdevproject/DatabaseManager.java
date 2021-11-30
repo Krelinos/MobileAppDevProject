@@ -12,10 +12,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME   = "CYOA_DB";
     private static final int DATABASE_VERSION   = 1;
     private static final String TABLE           = "Choice";
+    private static final String TABLE_TRANSCHOICE   =   "TransitionalChoice";    // nice
     private static final String ID              = "Id";
     private static final String PARENT_ID       = "ParentId";
     private static final String DIALOG          = "Dialog";
-    private static final String BG_IMAGE        = "BGImage";
 
     public DatabaseManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,14 +24,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        String sqlQuery = String.format("Create Table %s ( %s Integer Primary Key Autoincrement, %s Integer, %s Text, %s Text )", TABLE, ID, PARENT_ID, DIALOG, BG_IMAGE );
+        String sqlQuery = String.format("Create Table %s ( %s Integer Primary Key Autoincrement, %s Integer, %s Text )", TABLE, ID, PARENT_ID, DIALOG );
         sqLiteDatabase.execSQL( sqlQuery );
 
     }
 
     public void insert(Choice newChoice){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        String sqlInsert = String.format("Insert Into %s Values (null, %d, '%s', '%s')", TABLE, newChoice.getParentId(), newChoice.getDialog(), newChoice.getBGImage());
+        String sqlInsert = String.format("Insert Into %s Values (null, %d, '%s')", TABLE, newChoice.getParentId(), newChoice.getDialog());
 
         sqLiteDatabase.execSQL(sqlInsert);
         sqLiteDatabase.close();
@@ -43,7 +43,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery, null);
         if ( cursor.moveToNext() ) {
-            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3) );
+            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2) );
             return aChoice;
         }
 
@@ -58,7 +58,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         ArrayList<Choice> choices = new ArrayList<>();
 
         while ( cursor.moveToNext() ) {
-            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3) );
+            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2) );
             choices.add( aChoice );
         }
 
@@ -74,13 +74,26 @@ public class DatabaseManager extends SQLiteOpenHelper {
         ArrayList<Choice> choices = new ArrayList<>();
 
         while ( cursor.moveToNext() ) {
-            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3) );
+            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2) );
             choices.add( aChoice );
         }
 
         sqLiteDatabase.close();
         return choices;
     }
+
+    public String getBGImageOfId( int id ) {
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String sqlQuery = String.format("Select * From %s Where %s = %d", TABLE_TRANSCHOICE, ID, id);
+
+        Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery, null);
+        if ( cursor.moveToNext() )
+            return cursor.getString(1);
+
+        return null;
+    }
+
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion ) {
         // Drop old table if it exists
