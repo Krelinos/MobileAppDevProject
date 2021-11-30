@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -270,4 +271,18 @@ public class NarrativeActivity extends AppCompatActivity {
 //
 //    }
 
+    public void statsButtonClick(View v) {
+        Intent intentLaunch = new Intent(NarrativeActivity.this, PlayerStats.class);
+        startActivity(intentLaunch);
+    }
+
+    public void restartButtonClicked(View v) {
+        Intent intentLaunch = new Intent(NarrativeActivity.this, MainActivity.class);
+        startActivity(intentLaunch);
+    }
+
+    public void exitButtonClicked(View v) {
+        finish();
+        System.exit(0);
+    }
 }
