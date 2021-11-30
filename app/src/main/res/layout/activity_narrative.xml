@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_narrative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +17,8 @@
         android:id="@+id/narrative_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:layout_marginBottom="50dp">
 
         <LinearLayout
             android:id="@+id/narrative_layout"
@@ -44,39 +46,44 @@
         </LinearLayout>
     </ScrollView>
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignBottom="@id/narrative_bg_image"
-        android:layout_marginLeft="140dp"
-        android:layout_marginBottom="30dp"
-        android:onClick="statsButtonClick"
-        android:background="@drawable/roundbutton"
-        android:src="@drawable/statistics"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp">
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignBottom="@id/narrative_bg_image"
-        android:layout_marginLeft="200dp"
-        android:layout_marginBottom="30dp"
-        android:onClick="restartButtonClicked"
-        android:background="@drawable/roundbutton"
-        android:src="@drawable/restart"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"/>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/roundbutton"
+            android:onClick="statsButtonClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/statistics" />
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignBottom="@id/narrative_bg_image"
-        android:layout_marginLeft="260dp"
-        android:layout_marginBottom="30dp"
-        android:onClick="exitButtonClicked"
-        android:background="@drawable/roundbutton"
-        android:src="@drawable/exit"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"/>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/roundbutton"
+            android:onClick="restartButtonClicked"
+            android:scaleType="fitCenter"
+            android:src="@drawable/restart" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/roundbutton"
+            android:onClick="exitButtonClicked"
+            android:scaleType="fitCenter"
+            android:src="@drawable/exit" />
+
+    </LinearLayout>
+
 </RelativeLayout>
