@@ -8,6 +8,7 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="4dp"
-        android:background="@drawable/border_line"/>
+        android:layout_marginVertical="3dp"
+        android:background="@drawable/border_line" />
 
 </RelativeLayout>

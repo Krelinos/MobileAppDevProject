@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,42 +46,42 @@ public class NarrativeActivity extends AppCompatActivity {
         choiceDialog        = findViewById(R.id.choice_dialog);
         choiceButton        = findViewById(R.id.choice_button);
 
-        inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-
-        //----
-
-        View newNarrativeTextView = getLayoutInflater().inflate(R.layout.choice_dialog, null);
-
-        TextView tv = newNarrativeTextView.findViewById(R.id.choice_dialog_tv);
-        tv.setText("Is this it?");
-
-        narrativeLayout.addView( newNarrativeTextView );
-
-        String dialog = choicesDB.selectById(1).getDialog();
-        String oh = dialog.replace("\n", "\n\n");
-
-        TextView what = findViewById(R.id.wa).findViewById(R.id.choice_dialog_tv);
-        what.setText( oh );
-//        transitionToNewBackground( choicesDB.selectById(2) );
+//        inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+//
+//        //----
+//
+//        View newNarrativeTextView = getLayoutInflater().inflate(R.layout.choice_dialog, null);
+//
+//        TextView tv = newNarrativeTextView.findViewById(R.id.choice_dialog_tv);
+//        tv.setText("Is this it?");
+//
+//        narrativeLayout.addView( newNarrativeTextView );
+//
+//        String dialog = choicesDB.selectById(1).getDialog();
+//        String oh = dialog.replace("\n", "\n\n");
+//
+//        TextView what = findViewById(R.id.wa).findViewById(R.id.choice_dialog_tv);
+//        what.setText( oh );
+        transitionToNewBackground( choicesDB.selectById(1) );
     }
 
     void populateLayoutWithChoice( Choice dialogToPopulateWith ) {
 
         // Dialog
         String[] sectionedDialog = dialogToPopulateWith.getDialog().split("\n");
-        TextView[] dialogTVs = new TextView[sectionedDialog.length];
+        View[] dialogViews = new View[sectionedDialog.length];
 
         for( int i = 0; i < sectionedDialog.length; i++ ) {
 
             View newNarrativeChoiceDialog = getLayoutInflater().inflate(R.layout.choice_dialog, null);
             newNarrativeChoiceDialog.setId( dialogToPopulateWith.getId() );
-//            newNarrativeChoiceDialog.setAlpha( 0f );
+            newNarrativeChoiceDialog.setAlpha( 0f );     // TextViews will be revealed slowly using fadeInTextView
 
             TextView tv = newNarrativeChoiceDialog.findViewById(R.id.choice_dialog_tv);
-            tv.setId( View.generateViewId() );
             tv.setText( sectionedDialog[i] );
 
             narrativeLayout.addView( newNarrativeChoiceDialog );
+            dialogViews[i] = newNarrativeChoiceDialog;
 
         }
 
@@ -89,20 +90,63 @@ public class NarrativeActivity extends AppCompatActivity {
         narrativeLayout.addView( newAestheticLine );
 
         ArrayList<Choice> choiceBranches = choicesDB.selectAllByParentId( dialogToPopulateWith.getId() );
+        System.out.println( String.format("Given ParentId of %d, size of choices is %d", dialogToPopulateWith.getId(), choiceBranches.size()) );
         for( int i = 0; i < choiceBranches.size(); i++ ) {
 
             View newChoiceButton = getLayoutInflater().inflate( R.layout.choice_button, null );
 
             newChoiceButton.setId( View.generateViewId() );
-            newChoiceButton.setTag( 1, choiceBranches.get(i) );
+            newChoiceButton.setTag( R.integer.choiceId, choiceBranches.get(i).getId() );
+            narrativeLayout.addView( newChoiceButton );
             // Note: choice_button views automatically connect with onClickChoiceButton
 
         }
 
-        // Now slowly reveal each TextView according to their estimated reading time.
-        // irisreading.com says the average reader reads 200 to 250 word per minute.
+        View padding = getLayoutInflater().inflate(R.layout.choice_dialog, null);
+        TextView tv = padding.findViewById(R.id.choice_dialog_tv);
+        tv.setText("Padding");
 
-//        fadeInTextView(  );
+        narrativeLayout.addView( padding );
+
+        // Now slowly reveal each TextView according to their estimated reading time.
+        // irisreading.com says the average reader reads 200 to 250 words per minute.
+
+        Timer revealTimer = new Timer();
+        int totalDialogReadTime = 0;
+
+        for( int i = 0; i < dialogViews.length; i++ ) {
+
+            int previousDialogReadTime = 0;
+            if( i > 0 ) {
+                View previousDialogView = dialogViews[i - 1];
+                TextView previousDialogTV = previousDialogView.findViewById(R.id.choice_dialog_tv);
+                int estimatedWords = previousDialogTV.getText().toString().split(" ").length;
+
+                previousDialogReadTime = estimatedWords * 60 * 1000 / 200;
+            }
+
+            View dialogView     = dialogViews[i];
+            revealTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ObjectAnimator alphaAnim = ObjectAnimator.ofFloat( dialogView, "alpha", 1f );
+                            alphaAnim.setDuration(300).start();
+                            System.out.println("Revealing next dialog");
+                        }
+                    });
+
+                }
+            }, totalDialogReadTime + previousDialogReadTime);
+
+            totalDialogReadTime += previousDialogReadTime;
+        }
+
+        // TODO: Reveal the aesthetic line and the choices. Right now, they are visible immediately
+        System.out.println( Resources.getSystem().getDisplayMetrics().heightPixels );
 
     }
 
@@ -129,7 +173,7 @@ public class NarrativeActivity extends AppCompatActivity {
         Keyframe k12 = Keyframe.ofFloat( 0.33f, 0f );
         Keyframe k13 = Keyframe.ofFloat( 0.5f, 1f );
         Keyframe k14 = Keyframe.ofFloat( 0.833f, 1f );
-        Keyframe k15 = Keyframe.ofFloat( 1f, 0.65f );
+        Keyframe k15 = Keyframe.ofFloat( 1f, 0.5f );
 
         PropertyValuesHolder pvhAlpha_narrativeBG = PropertyValuesHolder.ofKeyframe("alpha", k10, k11, k12, k13, k14, k15);
         ObjectAnimator alphaAnim_narrativeBG = ObjectAnimator.ofPropertyValuesHolder( narrativeBackground, pvhAlpha_narrativeBG );
@@ -147,11 +191,31 @@ public class NarrativeActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             narrativeLayout.removeAllViews();
-                            populateLayoutWithChoice( initialChoice );
+
+                            Resources resources = narrativeBackground.getContext().getResources();
+                            String bgImage      = choicesDB.getBGImageOfId( initialChoice.getId() );
+
+                            final int resourceId = resources.getIdentifier( bgImage, "drawable", narrativeBackground.getContext().getPackageName() );
+                            System.out.println( String.format("bgImage is %s. ResourceId is %d", bgImage, resourceId ) );
+                            narrativeBackground.findViewById(R.id.narrative_bg_image).setBackground( resources.getDrawable( resourceId ) );
                         }
                     });
                 }
             }, 3000
+        );
+
+        clearDialogTimer.schedule(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                populateLayoutWithChoice( initialChoice );
+                            }
+                        });
+                    }
+                }, 8500
         );
 
 
@@ -168,7 +232,17 @@ public class NarrativeActivity extends AppCompatActivity {
         int parentId = ( (View)v.getParent() ).getId();     // View containing the TextView that called this method
 
         v.setEnabled(false);
-        transitionToNewBackground( choicesDB.selectById(2) );
+
+        int selectedChoiceId = (int)((View) v.getParent()).getTag( R.integer.choiceId );
+        System.out.println("Moving to choiceId " + selectedChoiceId);
+
+        Choice selectedChoice = choicesDB.selectById( selectedChoiceId );
+        String newBGImage = choicesDB.getBGImageOfId( selectedChoiceId );
+
+        if( newBGImage != null )
+            transitionToNewBackground( selectedChoice );
+        else
+            populateLayoutWithChoice( selectedChoice );
 
     }
 
