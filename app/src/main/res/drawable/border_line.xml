@@ -3,7 +3,7 @@
     android:shape="line" >
 
     <padding
-        android:top="500dp" />
+        android:top="0dp" />
 
     <!-- View background color -->
     <solid

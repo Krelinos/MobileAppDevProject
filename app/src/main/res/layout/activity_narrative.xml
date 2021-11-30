@@ -15,14 +15,15 @@
     <ScrollView
         android:id="@+id/narrative_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp">
 
         <LinearLayout
             android:id="@+id/narrative_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginVertical="10dp"
             android:orientation="vertical">
 
             <include

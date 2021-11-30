@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -26,10 +27,12 @@ public class NarrativeActivity extends AppCompatActivity {
 
     private RelativeLayout activityNarrative;   // Main layout that holds everything except for non-game things like the menu and... yeah just the menu
     private ImageView narrativeBackground;      // Background image that is not affect by the ScrollView
+    private ScrollView narrativeScrollLayout;   // ScrollLayout layered over the background
     private LinearLayout narrativeLayout;       // LinearLayout inside ScrollView containing the narrative elements
     private View choiceDialog;                  // Template for the TextView that displays the story text
     private View choiceButton;                  // Template for the branching path buttons
 
+    private int PLY_READING_SPEED;
     private LayoutInflater inflater;
 
     @Override
@@ -41,10 +44,13 @@ public class NarrativeActivity extends AppCompatActivity {
 
         choicesDB = new DatabaseManager(this);
 
-        narrativeBackground = findViewById(R.id.narrative_bg_image);
-        narrativeLayout     = findViewById(R.id.narrative_layout);
-        choiceDialog        = findViewById(R.id.choice_dialog);
-        choiceButton        = findViewById(R.id.choice_button);
+        narrativeBackground     = findViewById(R.id.narrative_bg_image);
+        narrativeScrollLayout   = findViewById(R.id.narrative_scrollview);
+        narrativeLayout         = findViewById(R.id.narrative_layout);
+        choiceDialog            = findViewById(R.id.choice_dialog);
+        choiceButton            = findViewById(R.id.choice_button);
+
+        PLY_READING_SPEED = 1000;
 
 //        inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 //
@@ -69,7 +75,10 @@ public class NarrativeActivity extends AppCompatActivity {
 
         // Dialog
         String[] sectionedDialog = dialogToPopulateWith.getDialog().split("\n");
-        View[] dialogViews = new View[sectionedDialog.length];
+        final View[] dialogViews = new View[sectionedDialog.length];
+
+        Timer revealTimer = new Timer();
+        int totalDialogReadTime = 0;
 
         for( int i = 0; i < sectionedDialog.length; i++ ) {
 
@@ -80,41 +89,11 @@ public class NarrativeActivity extends AppCompatActivity {
             TextView tv = newNarrativeChoiceDialog.findViewById(R.id.choice_dialog_tv);
             tv.setText( sectionedDialog[i] );
 
-            narrativeLayout.addView( newNarrativeChoiceDialog );
             dialogViews[i] = newNarrativeChoiceDialog;
 
-        }
+            // Now slowly reveal each TextView according to their estimated reading time.
+            // irisreading.com says the average reader reads 200 to 250 words per minute.
 
-        // Aesthetic line, then branches
-        View newAestheticLine = getLayoutInflater().inflate(R.layout.aesthetic_line, null);
-        narrativeLayout.addView( newAestheticLine );
-
-        ArrayList<Choice> choiceBranches = choicesDB.selectAllByParentId( dialogToPopulateWith.getId() );
-        System.out.println( String.format("Given ParentId of %d, size of choices is %d", dialogToPopulateWith.getId(), choiceBranches.size()) );
-        for( int i = 0; i < choiceBranches.size(); i++ ) {
-
-            View newChoiceButton = getLayoutInflater().inflate( R.layout.choice_button, null );
-
-            newChoiceButton.setId( View.generateViewId() );
-            newChoiceButton.setTag( R.integer.choiceId, choiceBranches.get(i).getId() );
-            narrativeLayout.addView( newChoiceButton );
-            // Note: choice_button views automatically connect with onClickChoiceButton
-
-        }
-
-        View padding = getLayoutInflater().inflate(R.layout.choice_dialog, null);
-        TextView tv = padding.findViewById(R.id.choice_dialog_tv);
-        tv.setText("Padding");
-
-        narrativeLayout.addView( padding );
-
-        // Now slowly reveal each TextView according to their estimated reading time.
-        // irisreading.com says the average reader reads 200 to 250 words per minute.
-
-        Timer revealTimer = new Timer();
-        int totalDialogReadTime = 0;
-
-        for( int i = 0; i < dialogViews.length; i++ ) {
 
             int previousDialogReadTime = 0;
             if( i > 0 ) {
@@ -122,10 +101,11 @@ public class NarrativeActivity extends AppCompatActivity {
                 TextView previousDialogTV = previousDialogView.findViewById(R.id.choice_dialog_tv);
                 int estimatedWords = previousDialogTV.getText().toString().split(" ").length;
 
-                previousDialogReadTime = estimatedWords * 60 * 1000 / 200;
+                previousDialogReadTime = estimatedWords * 60 * 1000 / PLY_READING_SPEED;
             }
 
-            View dialogView     = dialogViews[i];
+            View dialogView     = newNarrativeChoiceDialog;
+            int currentIndex    = i;
             revealTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -133,8 +113,18 @@ public class NarrativeActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
                             ObjectAnimator alphaAnim = ObjectAnimator.ofFloat( dialogView, "alpha", 1f );
                             alphaAnim.setDuration(300).start();
+                            narrativeLayout.addView( dialogViews[currentIndex] );
+
+                            narrativeScrollLayout.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    narrativeScrollLayout.smoothScrollTo( 0, 99999 );
+                                }
+                            });
+
                             System.out.println("Revealing next dialog");
                         }
                     });
@@ -144,6 +134,65 @@ public class NarrativeActivity extends AppCompatActivity {
 
             totalDialogReadTime += previousDialogReadTime;
         }
+
+        View previousDialogView = dialogViews[dialogViews.length - 1];
+        TextView previousDialogTV = previousDialogView.findViewById(R.id.choice_dialog_tv);
+
+        int estimatedWords = previousDialogTV.getText().toString().split(" ").length;
+        int previousDialogReadTime = estimatedWords * 60 * 1000 / PLY_READING_SPEED;
+
+        revealTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        // Aesthetic line, then branches
+                        View newAestheticLineTop = getLayoutInflater().inflate(R.layout.aesthetic_line, null);
+                        newAestheticLineTop.setAlpha(0f);
+                        narrativeLayout.addView( newAestheticLineTop );
+
+                        ObjectAnimator alphaAnim = ObjectAnimator.ofFloat( newAestheticLineTop, "alpha", 1f );
+                        alphaAnim.setDuration(300).start();
+
+                        ArrayList<Choice> choiceBranches = choicesDB.selectAllByParentId( dialogToPopulateWith.getId() );
+                        System.out.println( String.format("Given ParentId of %d, size of choices is %d", dialogToPopulateWith.getId(), choiceBranches.size()) );
+                        for( int i = 0; i < choiceBranches.size(); i++ ) {
+
+                            View newChoiceButton = getLayoutInflater().inflate( R.layout.choice_button, null );
+
+                            newChoiceButton.setId( View.generateViewId() );
+                            newChoiceButton.setTag( R.integer.choiceId, choiceBranches.get(i).getId() );
+                            newChoiceButton.setAlpha(0f);
+                            narrativeLayout.addView( newChoiceButton );
+                            // Note: choice_button views automatically connect with onClickChoiceButton
+
+                            alphaAnim = ObjectAnimator.ofFloat( newChoiceButton, "alpha", 1f );
+                            alphaAnim.setDuration(300).start();
+
+                        }
+
+                        View newAestheticLineBottom = getLayoutInflater().inflate(R.layout.aesthetic_line, null);
+                        newAestheticLineBottom.setAlpha(0f);
+                        narrativeLayout.addView( newAestheticLineBottom );
+
+                        alphaAnim = ObjectAnimator.ofFloat( newAestheticLineBottom, "alpha", 1f );
+                        alphaAnim.setDuration(300).start();
+
+                        narrativeScrollLayout.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                narrativeScrollLayout.smoothScrollTo( 0, 9999 );
+                            }
+                        });
+
+                    }
+                });
+
+            }
+        }, totalDialogReadTime + previousDialogReadTime);
 
         // TODO: Reveal the aesthetic line and the choices. Right now, they are visible immediately
         System.out.println( Resources.getSystem().getDisplayMetrics().heightPixels );
