@@ -8,15 +8,12 @@ import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -34,7 +31,6 @@ public class NarrativeActivity extends AppCompatActivity {
     private View choiceButton;                  // Template for the branching path buttons
 
     private int PLY_READING_SPEED;
-    private LayoutInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +47,7 @@ public class NarrativeActivity extends AppCompatActivity {
         choiceDialog            = findViewById(R.id.choice_dialog);
         choiceButton            = findViewById(R.id.choice_button);
 
-        PLY_READING_SPEED = 1000;
-
-//        inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-//
-//        //----
-//
-//        View newNarrativeTextView = getLayoutInflater().inflate(R.layout.choice_dialog, null);
-//
-//        TextView tv = newNarrativeTextView.findViewById(R.id.choice_dialog_tv);
-//        tv.setText("Is this it?");
-//
-//        narrativeLayout.addView( newNarrativeTextView );
-//
-//        String dialog = choicesDB.selectById(1).getDialog();
-//        String oh = dialog.replace("\n", "\n\n");
-//
-//        TextView what = findViewById(R.id.wa).findViewById(R.id.choice_dialog_tv);
-//        what.setText( oh );
+        PLY_READING_SPEED = 3000;
         transitionToNewBackground( choicesDB.selectById(1) );
     }
 
@@ -94,7 +73,6 @@ public class NarrativeActivity extends AppCompatActivity {
 
             // Now slowly reveal each TextView according to their estimated reading time.
             // irisreading.com says the average reader reads 200 to 250 words per minute.
-
 
             int previousDialogReadTime = 0;
             if( i > 0 ) {
@@ -167,8 +145,12 @@ public class NarrativeActivity extends AppCompatActivity {
                             newChoiceButton.setId( View.generateViewId() );
                             newChoiceButton.setTag( R.integer.choiceId, choiceBranches.get(i).getId() );
                             newChoiceButton.setAlpha(0f);
+
+                            ((TextView)newChoiceButton.findViewById( R.id.choice_button_tv )).setText( choicesDB.getButtonDialogOfId( choiceBranches.get(i).getId() ) );
                             narrativeLayout.addView( newChoiceButton );
                             // Note: choice_button views automatically connect with onClickChoiceButton
+
+                            System.out.println("ChoiceButton with branching Id of " + choiceBranches.get(i).getId());
 
                             alphaAnim = ObjectAnimator.ofFloat( newChoiceButton, "alpha", 1f );
                             alphaAnim.setDuration(300).start();
@@ -194,9 +176,6 @@ public class NarrativeActivity extends AppCompatActivity {
 
             }
         }, totalDialogReadTime + previousDialogReadTime);
-
-        // TODO: Reveal the aesthetic line and the choices. Right now, they are visible immediately
-        System.out.println( Resources.getSystem().getDisplayMetrics().heightPixels );
 
     }
 
@@ -268,8 +247,6 @@ public class NarrativeActivity extends AppCompatActivity {
                 }, 8500
         );
 
-
-
 //        for( int i = 0; i < narrativeLayout.getChildCount(); i++ ) {
 //            System.out.println(getResources().getResourceEntryName(narrativeLayout.getChildAt(i).getId()));
 //            narrativeLayout.removeAllViews();
@@ -295,30 +272,6 @@ public class NarrativeActivity extends AppCompatActivity {
             populateLayoutWithChoice( selectedChoice );
 
     }
-
-//    private void introAnimation() {
-//
-//        narrativeBackground.setAlpha(0f);
-//        narrativeLayout.setAlpha(0f);
-//
-//        Keyframe k00 = Keyframe.ofFloat( 0f, 0f );
-//        Keyframe k01 = Keyframe.ofFloat( 0.25f, 1f );
-//        Keyframe k02 = Keyframe.ofFloat( 0.75f, 1f );
-//        Keyframe k03 = Keyframe.ofFloat( 1f, 0.8f );
-//
-//        PropertyValuesHolder pvhAlpha_BG = PropertyValuesHolder.ofKeyframe("alpha", k00, k01, k02, k03);
-//        ObjectAnimator alphaAnim_BG = ObjectAnimator.ofPropertyValuesHolder( narrativeBackground, pvhAlpha_BG );
-//
-//        Keyframe k10 = Keyframe.ofFloat( 0f, 0f );
-//        Keyframe k11 = Keyframe.ofFloat( 0.75f, 0f );
-//        Keyframe k12 = Keyframe.ofFloat( 1f, 1f );
-//        PropertyValuesHolder pvhAlpha_Narrative = PropertyValuesHolder.ofKeyframe("alpha", k10, k11, k12);
-//        ObjectAnimator alphaAnim_Narrative = ObjectAnimator.ofPropertyValuesHolder( narrativeView, pvhAlpha_Narrative );
-//
-//        alphaAnim_BG.setDuration(5000).start();
-//        alphaAnim_Narrative.setDuration(5000).start();
-//
-//    }
 
     public void statsButtonClick(View v) {
         Intent intentLaunch = new Intent(NarrativeActivity.this, PlayerStats.class);

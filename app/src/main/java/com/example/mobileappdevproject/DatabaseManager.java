@@ -16,6 +16,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static final String ID              = "Id";
     private static final String PARENT_ID       = "ParentId";
     private static final String DIALOG          = "Dialog";
+    private static final String BUTTON_DIALOG   = "ButtonDialog";
 
     public DatabaseManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,14 +25,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        String sqlQuery = String.format("Create Table %s ( %s Integer Primary Key Autoincrement, %s Integer, %s Text )", TABLE, ID, PARENT_ID, DIALOG );
+        String sqlQuery = String.format("Create Table %s ( %s Integer Primary Key Autoincrement, %s Integer, %s Text, %s Text )", TABLE, ID, PARENT_ID, DIALOG, BUTTON_DIALOG );
         sqLiteDatabase.execSQL( sqlQuery );
 
     }
 
     public void insert(Choice newChoice){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        String sqlInsert = String.format("Insert Into %s Values (null, %d, '%s')", TABLE, newChoice.getParentId(), newChoice.getDialog());
+        String sqlInsert = String.format("Insert Into %s Values (null, %d, '%s', '%s')", TABLE, newChoice.getParentId(), newChoice.getDialog());
 
         sqLiteDatabase.execSQL(sqlInsert);
         sqLiteDatabase.close();
@@ -43,7 +44,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery, null);
         if ( cursor.moveToNext() ) {
-            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2) );
+            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3) );
             return aChoice;
         }
 
@@ -58,7 +59,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         ArrayList<Choice> choices = new ArrayList<>();
 
         while ( cursor.moveToNext() ) {
-            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2) );
+            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3) );
             choices.add( aChoice );
         }
 
@@ -74,7 +75,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         ArrayList<Choice> choices = new ArrayList<>();
 
         while ( cursor.moveToNext() ) {
-            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2) );
+            Choice aChoice = new Choice( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3) );
             choices.add( aChoice );
         }
 
@@ -90,6 +91,17 @@ public class DatabaseManager extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery, null);
         if ( cursor.moveToNext() )
             return cursor.getString(1);
+
+        return null;
+    }
+
+    public String getButtonDialogOfId( int id ) {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String sqlQuery = String.format("Select ButtonDialog From %s Where %s = %d", TABLE, ID, id);
+
+        Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery, null);
+        if ( cursor.moveToNext() )
+            return cursor.getString(0);
 
         return null;
     }
