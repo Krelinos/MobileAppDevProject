@@ -18,8 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,7 +34,6 @@ public class NarrativeActivity extends AppCompatActivity {
     private View choiceButton;                  // Template for the branching path buttons
 
     private int PLY_READING_SPEED;
-    private LayoutInflater inflater;
 
 
     @Override
@@ -55,25 +52,12 @@ public class NarrativeActivity extends AppCompatActivity {
         choiceDialog            = findViewById(R.id.choice_dialog);
         choiceButton            = findViewById(R.id.choice_button);
 
-        PLY_READING_SPEED = 1000;
+        SharedPreferences sp = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        PLY_READING_SPEED = sp.getInt("player_reading_speed", 200);
 
-//        inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-//
-//        //----
-//
-//        View newNarrativeTextView = getLayoutInflater().inflate(R.layout.choice_dialog, null);
-//
-//        TextView tv = newNarrativeTextView.findViewById(R.id.choice_dialog_tv);
-//        tv.setText("Is this it?");
-//
-//        narrativeLayout.addView( newNarrativeTextView );
-//
-//        String dialog = choicesDB.selectById(1).getDialog();
-//        String oh = dialog.replace("\n", "\n\n");
-//
-//        TextView what = findViewById(R.id.wa).findViewById(R.id.choice_dialog_tv);
-//        what.setText( oh );
-        transitionToNewBackground( choicesDB.selectById(1) );
+        int startingChoice = sp.getInt("story_start_id", 1);
+
+        transitionToNewBackground( choicesDB.selectById(startingChoice) );
     }
 
     void populateLayoutWithChoice( Choice dialogToPopulateWith ) {

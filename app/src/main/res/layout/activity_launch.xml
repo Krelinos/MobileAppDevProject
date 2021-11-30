@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:onClick="onClickNewVoyage"
-        android:text="Start New Voyage" />
+        android:text="Start New Voyage"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:id="@+id/btnsavedvoyage"
@@ -23,12 +25,41 @@
         android:layout_below="@+id/btnnewvoyage"
         android:layout_centerInParent="true"
         android:onClick="onClickLoadVoyage"
-        android:text="Load Saved Voyage" />
+        android:text="Load Saved Voyage"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#FFFFFF"/>
 
     <Switch
         android:id="@+id/switch1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reveal important story turning points with your reading speed" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="210dp"
+        android:text="Reveal Important Story Points"
+        android:fontFamily="sans-serif"
+        android:textColor="#FFFFFF"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="380dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reading Speed (words per minute):"
+            android:fontFamily="sans-serif"
+            android:textColor="#FFFFFF" />
+        <EditText
+            android:id="@+id/player_reading_speed_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="80dp"
+            android:backgroundTint="@color/white"
+            android:text="200"
+            android:textColor="@color/white"
+            android:textAlignment="center"/>
+    </LinearLayout>
 
 </RelativeLayout>
