@@ -1,6 +1,8 @@
 package com.example.mobileappdevproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
@@ -24,6 +26,8 @@ import java.util.TimerTask;
 
 public class NarrativeActivity extends AppCompatActivity {
 
+    DrawerLayout drawerLayout;
+
     private DatabaseManager choicesDB;
 
     private RelativeLayout activityNarrative;   // Main layout that holds everything except for non-game things like the menu and... yeah just the menu
@@ -43,6 +47,8 @@ public class NarrativeActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();   // Hide action bar from layout
         setContentView(R.layout.activity_narrative);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
 
         choicesDB = new DatabaseManager(this);
 
@@ -309,6 +315,24 @@ public class NarrativeActivity extends AppCompatActivity {
 //
 //    }
 
+    public void ClickMenu(View v){
+        openDrawer(drawerLayout);
+    }
+
+    private void openDrawer(DrawerLayout drawerLayout) {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    private void ClickLogo(View v){
+        closeDrawer(drawerLayout);
+    }
+
+    private void closeDrawer(DrawerLayout drawerLayout) {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+
     public void statsButtonClick(View v) {
         Intent intentLaunch = new Intent(NarrativeActivity.this, PlayerStats.class);
         startActivity(intentLaunch);
@@ -316,13 +340,21 @@ public class NarrativeActivity extends AppCompatActivity {
     }
 
     public void restartButtonClicked(View v) {
-        Intent intentLaunch = new Intent(NarrativeActivity.this, MainActivity.class);
-        startActivity(intentLaunch);
-        System.out.println("restart button clicked");
+//        Intent intentLaunch = new Intent(NarrativeActivity.this, MainActivity.class);
+//        startActivity(intentLaunch);
+//        System.out.println("restart button clicked");
+        redirectActivity();
+    }
+
+    private void redirectActivity() {
+        Intent intent = new Intent(NarrativeActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     public void exitButtonClicked(View v) {
         finishAffinity();
+        System.exit(0);
         System.out.println("exit button clicked");
     }
 }
