@@ -1,0 +1,51 @@
+<TableLayout tools:context=".PlayerStats"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <TableRow>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        <TextView
+            android:text="Name"
+            android:padding="10dip"/>
+
+        <TextView
+            android:text="Perry Jones"
+            android:id="@+id/name"/>
+
+    </TableRow>
+
+    <TableRow>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        <TextView
+            android:text="Age"
+            android:padding="10dip"/>
+
+        <TextView
+            android:text="24"
+            android:id="@+id/age"/>
+
+    </TableRow>
+
+    <TableRow>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        <TextView
+            android:text="Health"
+            android:padding="10dip"/>
+
+        <TextView
+            android:text="100%"
+            android:id="@+id/health"/>
+    </TableRow>
+
+    <Button
+        android:text="Return"
+        android:onClick="goBack"
+        android:layout_column="1"/>
+</TableLayout>
