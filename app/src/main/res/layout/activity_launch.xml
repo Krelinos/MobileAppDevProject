@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/startintentbkg">
 
-    <Button android:id="@+id/btnnewvoyage"
+    <Button
+        android:id="@+id/btnnewvoyage"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Start New Voyage"
-        android:onClick="onClickNewVoyage"/>
+        android:onClick="onClickNewVoyage"
+        android:text="Start New Voyage" />
 
-    <Button android:id="@+id/btnsavedvoyage"
+    <Button
+        android:id="@+id/btnsavedvoyage"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load Saved Voyage"
+        android:layout_below="@+id/btnnewvoyage"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/btnnewvoyage"/>
+        android:onClick="onClickLoadVoyage"
+        android:text="Load Saved Voyage" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reveal important story turning points with your reading speed" />
 
 </RelativeLayout>

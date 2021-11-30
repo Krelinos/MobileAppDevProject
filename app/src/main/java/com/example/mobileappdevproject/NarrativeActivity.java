@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,9 +38,11 @@ public class NarrativeActivity extends AppCompatActivity {
     private int PLY_READING_SPEED;
     private LayoutInflater inflater;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         getSupportActionBar().hide();   // Hide action bar from layout
         setContentView(R.layout.activity_narrative);
@@ -73,6 +77,7 @@ public class NarrativeActivity extends AppCompatActivity {
     }
 
     void populateLayoutWithChoice( Choice dialogToPopulateWith ) {
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
 
         // Dialog
         String[] sectionedDialog = dialogToPopulateWith.getDialog().split("\n");
