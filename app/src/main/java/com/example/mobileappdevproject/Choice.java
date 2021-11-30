@@ -4,11 +4,14 @@ public class Choice {
     private int Id;
     private int ParentId;
     private String Dialog;
-    public Choice( int newId, int newParentId, String newDialog ) {
+    private String ButtonDialog;
+
+    public Choice( int newId, int newParentId, String newDialog, String newButtonDialog ) {
 
         Id = newId;
         ParentId = newParentId;
         Dialog = newDialog;
+        ButtonDialog = newButtonDialog;
 
     }
 
@@ -22,6 +25,8 @@ public class Choice {
 
     public String getDialog() { return Dialog; }
 
+    public String getButtonDialog() { return ButtonDialog; }
+
     public void setId(int newId ) {
         Id = newId;
     }
@@ -29,4 +34,6 @@ public class Choice {
     public void setDialog(String dialog) {
         Dialog = dialog;
     }
+
+    public void setButtonDialog(String buttonDialog) { ButtonDialog = buttonDialog; }
 }

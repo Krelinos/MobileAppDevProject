@@ -162,6 +162,7 @@ public class NarrativeActivity extends AppCompatActivity {
                             newChoiceButton.setId( View.generateViewId() );
                             newChoiceButton.setTag( R.integer.choiceId, choiceBranches.get(i).getId() );
                             newChoiceButton.setAlpha(0f);
+                            ((TextView)newChoiceButton.findViewById( R.id.choice_button_tv )).setText( choicesDB.getButtonDialogOfId( choiceBranches.get(i).getId() ) );
                             narrativeLayout.addView( newChoiceButton );
                             // Note: choice_button views automatically connect with onClickChoiceButton
 
@@ -223,8 +224,8 @@ public class NarrativeActivity extends AppCompatActivity {
         PropertyValuesHolder pvhAlpha_narrativeBG = PropertyValuesHolder.ofKeyframe("alpha", k10, k11, k12, k13, k14, k15);
         ObjectAnimator alphaAnim_narrativeBG = ObjectAnimator.ofPropertyValuesHolder( narrativeBackground, pvhAlpha_narrativeBG );
 
-        alphaAnim_activity.setDuration(10000).start();
-        alphaAnim_narrativeBG.setDuration(10000).start();
+        alphaAnim_activity.setDuration(8000).start();
+        alphaAnim_narrativeBG.setDuration(8000).start();
 
         // A timer is used here to clear the dialog once the fade out is fully active
         Timer clearDialogTimer = new Timer();
@@ -235,6 +236,7 @@ public class NarrativeActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {  // This thread stuff is a bit ridiculous
                         @Override
                         public void run() {
+
                             narrativeLayout.removeAllViews();
 
                             Resources resources = narrativeBackground.getContext().getResources();
@@ -260,7 +262,7 @@ public class NarrativeActivity extends AppCompatActivity {
                             }
                         });
                     }
-                }, 8500
+                }, 6500
         );
 
 
@@ -291,6 +293,7 @@ public class NarrativeActivity extends AppCompatActivity {
 
     }
 
+<<<<<<< Updated upstream
 //    private void introAnimation() {
 //
 //        narrativeBackground.setAlpha(0f);
@@ -333,6 +336,8 @@ public class NarrativeActivity extends AppCompatActivity {
         }
     }
 
+=======
+>>>>>>> Stashed changes
     public void statsButtonClick(View v) {
         Intent intentLaunch = new Intent(NarrativeActivity.this, PlayerStats.class);
         startActivity(intentLaunch);
