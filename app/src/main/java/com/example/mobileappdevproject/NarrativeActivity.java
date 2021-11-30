@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -96,6 +97,21 @@ public class NarrativeActivity extends AppCompatActivity {
         alphaAnim_BG.setDuration(5000).start();
         alphaAnim_Narrative.setDuration(5000).start();
 
+    }
+
+    public void onClickExitButton(View v) {
+        finish();
+        System.exit(0);
+    }
+
+    public void onClickRestartButton(View v) {
+        Intent intentLaunch = new Intent(NarrativeActivity.this, MainActivity.class);
+        startActivity(intentLaunch);
+    }
+
+    public void onClickStatsButton(View v) {
+        Intent intentLaunch = new Intent(NarrativeActivity.this, PlayerStats.class);
+        startActivity(intentLaunch);
     }
 
 }

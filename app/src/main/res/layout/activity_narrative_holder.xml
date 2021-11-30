@@ -12,10 +12,53 @@
         android:layout_height="match_parent"
         android:background="@drawable/dark_forest" />
 
+    <ImageButton
+        android:id="@+id/menubutton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@id/narrative_bg"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/statsbutton"
+        android:onClick="onClickExitButton"
+        android:background="@drawable/roundbutton"
+        android:src="@drawable/exit"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"/>
+
+    <ImageButton
+        android:id="@+id/statsbutton"
+        android:bottomRightRadius="8dp"
+        android:bottomLeftRadius="8dp"
+        android:topRightRadius="8dp"
+        android:topLeftRadius="8dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:layout_alignBottom="@id/narrative_bg"
+        android:onClick="onClickStatsButton"
+        android:background="@drawable/roundbutton"
+        android:src="@drawable/statistics"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"/>
+
+    <ImageButton
+        android:id="@+id/restartbutton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@id/narrative_bg"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@id/statsbutton"
+        android:onClick="onClickRestartButton"
+        android:background="@drawable/roundbutton"
+        android:src="@drawable/restart"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"/>
+
     <ScrollView
         android:id="@+id/narrative"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include layout="@layout/activity_narrative" />
     </ScrollView>
 
