@@ -16,6 +16,7 @@ public class PlayerStats extends AppCompatActivity {
         getSupportActionBar().hide();
 
         setContentView(R.layout.activity_playerstats);
+        System.out.println("inside player stats button clicked");
     }
 
     public void goBack(View v) {

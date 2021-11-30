@@ -274,15 +274,17 @@ public class NarrativeActivity extends AppCompatActivity {
     public void statsButtonClick(View v) {
         Intent intentLaunch = new Intent(NarrativeActivity.this, PlayerStats.class);
         startActivity(intentLaunch);
+        System.out.println("stats button clicked");
     }
 
     public void restartButtonClicked(View v) {
         Intent intentLaunch = new Intent(NarrativeActivity.this, MainActivity.class);
         startActivity(intentLaunch);
+        System.out.println("restart button clicked");
     }
 
     public void exitButtonClicked(View v) {
-        finish();
-        System.exit(0);
+        finishAffinity();
+        System.out.println("exit button clicked");
     }
 }
