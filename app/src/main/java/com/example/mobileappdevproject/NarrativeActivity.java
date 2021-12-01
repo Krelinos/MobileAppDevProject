@@ -293,31 +293,6 @@ public class NarrativeActivity extends AppCompatActivity {
 
     }
 
-<<<<<<< Updated upstream
-//    private void introAnimation() {
-//
-//        narrativeBackground.setAlpha(0f);
-//        narrativeLayout.setAlpha(0f);
-//
-//        Keyframe k00 = Keyframe.ofFloat( 0f, 0f );
-//        Keyframe k01 = Keyframe.ofFloat( 0.25f, 1f );
-//        Keyframe k02 = Keyframe.ofFloat( 0.75f, 1f );
-//        Keyframe k03 = Keyframe.ofFloat( 1f, 0.8f );
-//
-//        PropertyValuesHolder pvhAlpha_BG = PropertyValuesHolder.ofKeyframe("alpha", k00, k01, k02, k03);
-//        ObjectAnimator alphaAnim_BG = ObjectAnimator.ofPropertyValuesHolder( narrativeBackground, pvhAlpha_BG );
-//
-//        Keyframe k10 = Keyframe.ofFloat( 0f, 0f );
-//        Keyframe k11 = Keyframe.ofFloat( 0.75f, 0f );
-//        Keyframe k12 = Keyframe.ofFloat( 1f, 1f );
-//        PropertyValuesHolder pvhAlpha_Narrative = PropertyValuesHolder.ofKeyframe("alpha", k10, k11, k12);
-//        ObjectAnimator alphaAnim_Narrative = ObjectAnimator.ofPropertyValuesHolder( narrativeView, pvhAlpha_Narrative );
-//
-//        alphaAnim_BG.setDuration(5000).start();
-//        alphaAnim_Narrative.setDuration(5000).start();
-//
-//    }
-
     public void ClickMenu(View v){
         openDrawer(drawerLayout);
     }
@@ -336,8 +311,6 @@ public class NarrativeActivity extends AppCompatActivity {
         }
     }
 
-=======
->>>>>>> Stashed changes
     public void statsButtonClick(View v) {
         Intent intentLaunch = new Intent(NarrativeActivity.this, PlayerStats.class);
         startActivity(intentLaunch);

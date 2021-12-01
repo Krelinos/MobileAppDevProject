@@ -30,28 +30,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
             android:orientation="vertical">
-<<<<<<< Updated upstream
 
-            <include
-                layout="@layout/main_toolbar"/>
-
-            <include
-                android:id="@+id/wa"
-                layout="@layout/choice_dialog" />
-
-            <include
-                android:id="@+id/line"
-                layout="@layout/aesthetic_line" />
-
-            <include
-                android:id="@+id/wasd"
-                layout="@layout/choice_button" />
-
-            <include
-                android:id="@+id/what"
-                layout="@layout/choice_button" />
-=======
->>>>>>> Stashed changes
         </LinearLayout>
     </ScrollView>
 

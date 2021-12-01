@@ -46,7 +46,7 @@ public class LaunchScreen extends AppCompatActivity {
 
         int plyReadSpeed = Integer.parseInt( ((EditText)findViewById( R.id.player_reading_speed_setting )).getText().toString() );
         editor.putInt( "player_reading_speed", plyReadSpeed );
-        editor.putInt("story_start_id", 18);
+        editor.putInt("story_start_id", 19);
         editor.apply();
 
         Intent intentLaunch = new Intent(LaunchScreen.this, NarrativeActivity.class);
